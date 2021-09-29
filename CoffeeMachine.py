@@ -53,10 +53,10 @@ class CoffeMachine:
         beverageIngredients = self.__beverages[beverageName].getIngredients()
         for beverageIngredientName,beverageIngredient in beverageIngredients.items():
             if beverageIngredientName not in self.__ingredients:
-                print "%s cannot be prepared because %s is not available" %(beverageName, beverageIngredientName)
+                print("%s cannot be prepared because %s is not available" %(beverageName, beverageIngredientName))
                 return False
             if self.getIngredientQuantity(beverageIngredientName) < beverageIngredient.getQuantity():
-                print "%s cannot be prepared because item %s is not sufficient" %(beverageName, beverageIngredientName)
+                print("%s cannot be prepared because item %s is not sufficient" %(beverageName, beverageIngredientName))
                 return False
         return True
 
@@ -76,20 +76,21 @@ class CoffeMachine:
         return True
 
     def refillIndicator(self, name):
-        print("Ingredient Quantity low " + name)
+        print("For Ingredient %s Quantity is running low" %(name))
 
     def __dispense(self, beverageName):
-        time.sleep(2)
-        print '%s is prepared \n' %(beverageName)
+        time.sleep(1)
+        print('%s is prepared' %(beverageName))
 
     #can dispense multiple beverages in parallel with the capacity of n outlets
     def makeBeverage(self, beverageName):
         while(1):
-            if threading.active_count() < self.__outlets:
+            if threading.active_count() <= self.__outlets:
                 result = self.__mixIngredientsForBeverage(beverageName)
                 if not result:
                     return
                 thread = threading.Thread(target=self.__dispense, args=(beverageName,))
                 thread.start()
                 break
+            print('This beverage %s is in queue'%(beverageName))
             time.sleep(1)

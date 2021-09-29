@@ -18,8 +18,6 @@ for name,ingredients in beverages.items():
     machine.addBeverage(name, ingredients)
 
 machine.makeBeverage('hot_tea')
-machine.makeBeverage('hot_tea')
-machine.makeBeverage('hot_tea')
-
+machine.makeBeverage('hot_coffee')
 
 

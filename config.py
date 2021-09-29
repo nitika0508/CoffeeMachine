@@ -1,11 +1,11 @@
 ingredientsInfo = {
     'hot_water':
         {'capacity': 1000,
-         'threshold': 100,
+         'threshold': 120,
          },
     'hot_milk':
         {'capacity': 1000,
-         'threshold': 100,
+         'threshold': 120,
          },
     'ginger_syrup':
         {'capacity': 1000,
