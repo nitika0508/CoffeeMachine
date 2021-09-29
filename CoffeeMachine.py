@@ -1,6 +1,8 @@
+import threading
 import config
 from Models.Ingredient import Ingredient
 from Models.Beverage import Beverage
+import time
 
 class CoffeMachine:
 
@@ -43,7 +45,7 @@ class CoffeMachine:
 
     def canMakeBeverage(self, beverageName):
         if beverageName not in self.beverages:
-            raise Exception('Beverage %s is not supported', beverageName)
+            raise Exception("Beverage %s is not supported", beverageName)
 
         beverageIngredients = self.beverages[beverageName].getIngredients()
         for beverageIngredientName,beverageIngredient in beverageIngredients.items():
@@ -54,7 +56,7 @@ class CoffeMachine:
         return True
 
 
-    def makeBeverage(self, beverageName):
+    def getIngredientsForBeverage(self, beverageName):
         if not self.canMakeBeverage(beverageName):
             raise Exception("Can't prepare beverage")
 
@@ -66,10 +68,24 @@ class CoffeMachine:
             self.setIngredientQuantity(beverageIngredientName,quantityAfterBeverage)
             if(quantityAfterBeverage < self.ingredientsInfo[beverageIngredientName]['threshold']):
                 self.refillIndicator(beverageIngredientName)
-        return "We have prepared $beverageName"
+        return True
 
     def refillIndicator(self, name):
         print("Ingredient Quantity low " + name)
+
+    def dispense(self):
+        print 'dispensing'
+        time.sleep(2)
+        print 'dispensed'
+
+    def makeCoffee(self, beverageName):
+        result = self.getIngredientsForBeverage(beverageName)
+        while(1):
+            if threading.active_count() < self.outlets:
+                thread = threading.Thread(target=self.dispense)
+                thread.start()
+                break
+            time.sleep(1)
 
     def __str__(self):
         return "From str method of CoffeeMacine: Outlets is %s, \n ingredientsInfo is %s \n, ingredients is %s" % \
@@ -79,16 +95,3 @@ class CoffeMachine:
         print 'Ingredients INFO'
         for name, ingredient in self.ingredients.items():
             print ingredient
-
-
-
-
-
-
-
-
-
-
-
-
-
