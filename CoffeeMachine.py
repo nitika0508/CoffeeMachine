@@ -79,6 +79,7 @@ class CoffeMachine:
         print("For Ingredient %s Quantity is running low" %(name))
 
     def __dispense(self, beverageName):
+        #assuming 1 second to prepare a beverage
         time.sleep(1)
         print('%s is prepared' %(beverageName))
 
